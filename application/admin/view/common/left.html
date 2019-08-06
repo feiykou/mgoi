@@ -1,0 +1,84 @@
+<!--.layui-bg-black,.layui-bg-blue,.layui-bg-cyan,.layui-bg-green,.layui-bg-orange,.layui-bg-red-->
+<style>
+    .layui-nav{
+        background-color: transparent;
+    }
+    .layui-nav-itemed .layui-nav-child{
+        background-color: #293846!important;
+    }
+</style>
+<div class="layui-side layui-bg-cyan kit-side">
+    <div class="layui-side-scroll">
+        <div class="kit-side-fold"><i class="fa fa-navicon" aria-hidden="true"></i></div>
+        <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+        <ul class="layui-nav layui-nav-tree" kit-navbar>
+            <li class="layui-nav-item">
+                <a class="" href="javascript:;"><i class="fa fa-heartbeat" aria-hidden="true"></i><span> 品牌</span></a>
+                <dl class="layui-nav-child">
+                    <dd>
+                        <a href="javascript:;" data-url="{:url('brand/lst')}" data-icon="&#xe66e;" data-title="品牌分类" data-id="50" kit-target><i class="fa fa-puzzle-piece"></i><span> 品牌分类</span></a>
+                    </dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item">
+                <a class="" href="javascript:;"><i class="fa fa-briefcase" aria-hidden="true"></i><span> 主题</span></a>
+                <dl class="layui-nav-child">
+                    <dd>
+                        <a href="javascript:;" data-url="{:url('theme/lst')}" data-icon="&#xe6c6;" data-title="主题" data-id="20" kit-target><i class="fa fa-reorder"></i><span> 主题</span></a>
+                    </dd>
+                    <dd>
+                        <a href="javascript:;" data-url="{:url('theme_category/lst')}" data-icon="&#xe6c6;" data-title="主题分类" data-id="21" kit-target><i class="fa fa-reorder"></i><span> 主题分类</span></a>
+                    </dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item">
+                <a href="javascript:;"><i class="fa fa-id-badge" aria-hidden="true"></i><span> 商品</span></a>
+                <dl class="layui-nav-child">
+                    <dd><a href="javascript:;" kit-target  data-url="{:url('category/lst')}"  data-icon="&#xe658;" data-title="商品分类" data-id="51"><i class="fa fa-life-buoy"></i><span> 商品分类</span></a></dd>
+                    <dd><a href="javascript:;" kit-target  data-url="{:url('gift_category/lst')}"  data-icon="&#xe658;" data-title="商品分类" data-id="51"><i class="fa fa-life-buoy"></i><span> 礼品分类</span></a></dd>
+                    <dd><a href="javascript:;" kit-target  data-url="{:url('spec_group/lst')}"  data-icon="&#xe658;" data-title="商品类型" data-id="52"><i class="fa fa-magic"></i><span> 商品类型</span></a></dd>
+                    <dd><a href="javascript:;" kit-target  data-url="{:url('spec_param/lst')}"  data-icon="&#xe658;" data-title="商品属性" data-id="53"><i class="fa fa-microchip"></i><span> 商品属性</span></a></dd>
+                    <dd><a href="javascript:;" kit-target data-url="{:url('product/lst')}"  data-icon="&#xe658;" data-title="商品" data-id="54"><i class="fa fa-id-badge"></i><span> 商品</span></a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item">
+                <a href="javascript:;"><i class="fa fa-user" aria-hidden="true"></i><span> 会员管理</span></a>
+                <dl class="layui-nav-child">
+                    <dd><a href="javascript:;" kit-target  data-url="{:url('category/lst')}"  data-icon="&#xe658;" data-title="会员列表" data-id="61"><i class="fa fa-navicon"></i><span> 会员列表</span></a></dd>
+                    <dd><a href="javascript:;" kit-target  data-url="{:url('MemberLevel/lst')}"  data-icon="&#xe658;" data-title="会员级别" data-id="62"><i class="fa fa-paper-plane"></i><span> 会员级别</span></a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item">
+                <a href="javascript:;" data-url="{:url('recpos/lst')}" data-name="table"  data-icon="&#xe658;" data-title="推荐位" data-id="81" kit-target><i class="fa fa-thumbs-up" aria-hidden="true"></i><span> 推荐位</span></a>
+            </li>
+            <li class="layui-nav-item">
+                <a href="javascript:;"><i class="fa fa-magnet" aria-hidden="true"></i><span> 轮播</span></a>
+                <dl class="layui-nav-child">
+                    <dd><a href="javascript:;" kit-target  data-url="{:url('banner/lst')}"  data-icon="&#xe658;" data-title="轮播位" data-id="101"><i class="fa fa-map-pin"></i><span> 轮播位</span></a></dd>
+                    <dd><a href="javascript:;" kit-target  data-url="{:url('banner_item/lst')}"  data-icon="&#xe658;" data-title="轮播" data-id="52"><i class="fa fa-podcast"></i><span> 轮播</span></a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item">
+                <a href="javascript:;"><i class="fa fa-map-o" aria-hidden="true"></i><span> 订单</span></a>
+                <dl class="layui-nav-child">
+                    <dd><a href="javascript:;" kit-target  data-url="{:url('order/index')}"  data-icon="&#xe658;" data-title="订单列表" data-id="201"><i class="fa fa-motorcycle"></i><span> 订单列表</span></a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item">
+                <a href="javascript:;"><i class="fa fa-pencil-square" aria-hidden="true"></i><span> 优惠券</span></a>
+                <dl class="layui-nav-child">
+                    <dd><a href="javascript:;" kit-target data-url="{:url('coupons/lst')}"  data-icon="&#xe658;" data-title="优惠券列表" data-id="301"><i class="fa fa-reorder"></i><span> 优惠券列表</span></a></dd>
+                </dl>
+            </li>
+<!--            layui-nav-itemed-->
+            <li class="layui-nav-item">
+                <a href="javascript:;"><i class="fa fa-signing" aria-hidden="true"></i><span> 权限管理</span></a>
+                <dl class="layui-nav-child">
+                    <dd><a href="javascript:;" kit-target  data-url="{:url('user_cms/lst')}"  data-icon="&#xe658;" data-title="用户管理" data-id="601"><i class="fa fa-user"></i><span> 用户管理</span></a></dd>
+                    <dd><a href="javascript:;" kit-target  data-url="{:url('auth_group/lst')}"  data-icon="&#xe658;" data-title="分组管理" data-id="602"><i class="fa fa-users"></i><span> 分组管理</span></a></dd>
+                    <dd><a href="javascript:;" kit-target  data-url="{:url('auth_rule/lst')}"  data-icon="&#xe658;" data-title="规则" data-id="603"><i class="fa fa-sitemap"></i><span> 规则</span></a></dd>
+                </dl>
+            </li>
+        </ul>
+    </div>
+</div>
