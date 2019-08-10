@@ -11,6 +11,7 @@ class ProductRescCount extends BaseValidate
 {
     protected $rule = [
         'rescid' => 'require|isPositiveInteger',
-        'count' => 'require|isPositiveInteger'
+        'count' => 'require|isPositiveInteger',
+        'cateid' => 'isPositiveInteger'
     ];
 }

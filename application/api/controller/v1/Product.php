@@ -114,7 +114,7 @@ class Product extends BaseController
 
     /**
      * 获取首页推荐产品
-     * @url     /product/recoIndex?count=:count
+     * @url     /product/recoIndex/:rescid?count=:count&cateid=:cateid
      * @http    get
      * @param   int $count
      * @return  false|\PDOStatement|string|\think\Collection
@@ -123,9 +123,14 @@ class Product extends BaseController
     public function getRecoIndex($rescid= 6,$count = 4)
     {
         (new ProductRescCount())->goCheck();
-        $products = ProductModel::getIndex($rescid,$count);
+        $sonids = [];
+        $cateid = input('cateid',0,'intval');
+        if(!empty($cateid)){
+            $sonids = $this->getSonIds($cateid);
+        }
+        $products = ProductModel::getIndex($rescid,$count,$sonids);
         if($products->isEmpty()){
-            throw new ProductException();
+            return json([]);
         }
         $products = $products->hidden([
             'content', 'type_id', 'weight', 'unit', 'product_code'
@@ -176,6 +181,13 @@ class Product extends BaseController
     public function deleteOne($id)
     {
         ProductModel::destroy($id);
+    }
+
+    private function getSonIds($cateid=0){
+        $catetree = new Catetree();
+        $sonids = $catetree->childrenids($cateid, new CategoryModel());
+        $sonids[] = intval($cateid);
+        return $sonids;
     }
 
 }

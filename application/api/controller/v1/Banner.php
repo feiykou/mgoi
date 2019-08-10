@@ -30,10 +30,7 @@ class Banner extends BaseController
         $validate->goCheck();
         $banner = BannerModel::getBannerById($id);
         if(!$banner){
-            throw new MissException([
-                'msg' => '请求banner不存在',
-                'errorCode' => 40000
-            ]);
+            return json([]);
         }
         return $banner;
     }

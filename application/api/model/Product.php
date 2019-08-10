@@ -124,7 +124,7 @@ class Product extends BaseModel
     /*
      * 获取首页推荐产品
      */
-    public static function getIndex($rescid, $count)
+    public static function getIndex($rescid, $count,$sonids=[])
     {
         // 获取首页推荐产品id
         $_recoIndexIds = db('rec_item')->where([
@@ -139,6 +139,9 @@ class Product extends BaseModel
             ['on_sale','=',1],
             ['id','in',$recoIndexIds]
         ];
+        if(!empty($sonids)){
+            array_push($data,['category_id','in',$sonids]);
+        }
         $products = self::limit($count)
             ->where($data)
             ->order(['sort'=>'desc','create_time'=>'desc'])

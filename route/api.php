@@ -7,7 +7,7 @@ Route::get('api/:version/banner/:id', 'api/:version.Banner/getBanner');
  * Product
  */
 // 首页推荐
-Route::get('api/:version/product/recoIndex', 'api/:version.Product/getRecoIndex');
+Route::get('api/:version/product/recoIndex/:rescid', 'api/:version.Product/getRecoIndex',[],['rescid'=>'\d+']);
 
 // 获取产品详情
 Route::get('api/:version/product/:id/detail', 'api/:version.Product/getOne',[],['id'=>'\d+']);
