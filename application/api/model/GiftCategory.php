@@ -15,7 +15,7 @@ use think\Model;
 class GiftCategory extends BaseModel
 {
 
-    protected $hidden = ['sort','show_cate','keywords'];
+    protected $hidden = ['sort','show_cate'];
 
     public function product(){
         return $this->belongsToMany('product','product_giftcategory','gcate_id','product_id');
@@ -103,7 +103,7 @@ class GiftCategory extends BaseModel
         $ids = $cateTree->sonids($cateId, new self(),['is_delete'=>0]);
         $data = [];
         if(count($ids) > 0){
-            $data = self::_getSelCate($ids,',description');
+            $data = self::_getSelCate($ids,',description,keywords');
         }
         return $data;
     }
