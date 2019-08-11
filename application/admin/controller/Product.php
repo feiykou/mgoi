@@ -156,6 +156,20 @@ class Product extends Base
 
         // 获取请求数据
         $data = input('post.');
+        $products = $data;
+//        $img = $products['product_img_url'];
+//        // 处理产品图片
+//        if(isset($products['product_img_url'])){
+//            db('product_image')->where('product_id','=',$data['id'])->delete();
+//            $img_url_arr = explode(';',$products['product_img_url']);
+//            if(isset($img_url_arr[0]) && $img_url_arr[0]){
+//                foreach ($img_url_arr as $k=>$v){
+//                    $datas[$k]['img_url'] = $v;
+//                    $datas[$k]['product_id'] = $data['id'];
+//                }
+//                db('product_image')->insertAll($datas);
+//            }
+//        }
         $is_exist_id = empty($data['id']);
         // 判断是否存在同名
         $is_unique = $this->is_unique([['name','=',$data['name']]], $is_exist_id ? 0 : $data['id']);

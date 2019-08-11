@@ -132,16 +132,29 @@ class Product extends Model
         });
 
         Product::beforeUpdate(function ($products){
-            $productId = $products->id;
             // 获取新增商品
             $productData = input('post.');
-
+            $productId = $productData['id'];
             // 处理推荐位
             if(count($productData) > 3){
                 db('rec_item')->where([
                     'value_id' => $productId,
                     'value_type' => 1
                 ])->delete();
+            }
+
+            // 处理产品图片
+            if(isset($productData['product_img_url'])){
+                db('product_image')->where('product_id','=',$productId)->delete();
+                $img_url_arr = explode(';',$productData['product_img_url']);
+                if(isset($img_url_arr[0]) && $img_url_arr[0]){
+                    $data = [];
+                    foreach ($img_url_arr as $k=>$v){
+                        $data[$k]['img_url'] = $v;
+                        $data[$k]['product_id'] = $productId;
+                    }
+                    db('product_image')->insertAll($data);
+                }
             }
 
             if(isset($productData['recpos'])){
@@ -161,7 +174,7 @@ class Product extends Model
                 $sqlData = $self->getGiftCate($products);
                 if(empty($giftData)){
                     if(count($sqlData) > 0){
-                        $products->giftCate()->detach($sqlData);
+                        $self::get($productId)->giftCate()->detach($sqlData);
                     }
                     return;
                 }
@@ -176,28 +189,17 @@ class Product extends Model
                     }
                 }
                 if(count($detachData) > 0){
-                    $products->giftCate()->detach($detachData);
+                    $self::get($productId)->giftCate()->detach($detachData);
                 }
                 if(count($reqData) > 0){
-                    $products->giftCate()->saveAll($reqData);
+                    $self::get($productId)->giftCate()->saveAll($reqData);
                 }
             }
 
-            // 处理产品图片
-            if(isset($products->product_img_url)){
-                db('product_image')->where('product_id','=',$productId)->delete();
-                $img_url_arr = explode(';',$products->product_img_url);
-                if(isset($img_url_arr[0]) && $img_url_arr[0]){
-                    foreach ($img_url_arr as $k=>$v){
-                        $data[$k]['img_url'] = $v;
-                        $data[$k]['product_id'] = $productId;
-                    }
-                    db('product_image')->insertAll($data);
-                }
-            }
-            if(isset($products->mp)){
+
+            if(isset($productData['mp'])){
                 // 处理会员价格
-                $mpriceArr = $products->mp;
+                $mpriceArr = $products['mp'];
                 // 删除原有会员价格
                 db('member_price')->where('product_id','=',$productId)->delete();
                 foreach ($mpriceArr as $k => $v){

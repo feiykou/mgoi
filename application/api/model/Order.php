@@ -42,11 +42,11 @@ class Order extends BaseModel
         if($status != -1 && $status != 0){
             $data = [
                 'user_id' => $uid,
-                'status' => $status
+                'status' => intval($status)
             ];
         }else{
             $data = [
-                'user_id' => $uid,
+                ['user_id','=',$uid],
                 ['status','neq',0]
             ];
         }
