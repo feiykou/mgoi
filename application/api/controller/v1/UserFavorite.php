@@ -28,12 +28,18 @@ class UserFavorite extends BaseController
     public function add(){
         if(request()->isPost()){
             $uid = $this->_public();
-            $product_id = input('post.')['product_id'];
-            $isExist = UserFavoriteModel::checkIsExist($uid,$product_id);
+            $data = input('post.');
+            $favo_id = $data['favo_id'];
+            $type = 1;
+            if(isset($data['type'])){
+                $type = $data['type'];
+            }
+            $isExist = UserFavoriteModel::checkIsExist($uid,$favo_id,$type);
             if($isExist){
                 return json(new SuccessMessage(),201);
             }
-            $result = UserModel::saveFavo($uid,['product_id' => $product_id]);
+
+            $result = UserModel::saveFavo($uid,['favo_id' => $favo_id,'type'=>$type]);
             if(!$result){
                 throw new UserException([
                     'code'  =>  404,
@@ -51,14 +57,19 @@ class UserFavorite extends BaseController
         if(!UserModel::isExistUser($uid)){
             throw new UserException();
         }
-        $data = UserFavoriteModel::listFavo($uid,$page,$size);
-        return $data;
+        $data = UserFavoriteModel::listFavo($uid,$page,$size)->toArray();
+        return json($data);
     }
 
     public function delete(){
         $uid = $this->_public();
-        $product_id = input('put.')['product_id'];
-        $result = UserFavoriteModel::updateFavo($uid,$product_id,0);
+        $data = input('put.');
+        $favo_id = $data['favo_id'];
+        $type = 1;
+        if(isset($data['type'])){
+            $type = $data['type'];
+        }
+        $result = UserFavoriteModel::updateFavo($uid, $favo_id,$type,1);
         if(!$result){
             throw new UserException([
                 'code'  =>  404,
@@ -71,11 +82,17 @@ class UserFavorite extends BaseController
 
     public function checkFavo(){
         $uid = $this->_public();
-        $product_id = input('get.')['product_id'];
+        $data = input('get.');
+        $favo_id = $data['favo_id'];
+        $type = 1;
+        if(isset($data['type'])){
+            $type = $data['type'];
+        }
         $result = UserFavoriteModel::where([
             'user_id' => $uid,
-            'product_id' => $product_id,
-            'status' => 1
+            'favo_id' => $favo_id,
+            'type' => $type,
+            'is_delete' => 0
         ])->find();
         if($result){
             return json(new SuccessMessage(),201);

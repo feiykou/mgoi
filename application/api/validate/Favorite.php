@@ -12,6 +12,7 @@ namespace app\api\validate;
 class Favorite extends BaseValidate
 {
     protected $rule = [
-        'product_id' => 'require|isPositiveInteger',
+        'favo_id' => 'require|isPositiveInteger',
+        'type' => 'isPositiveInteger'
     ];
 }

@@ -11,41 +11,49 @@ namespace app\api\model;
 
 class UserFavorite extends BaseModel
 {
+
+    protected $visible = ['favo_id','id','type'];
+
     public function user(){
         return $this->belongsTo('user','user_id','id');
     }
     public function product(){
-        return $this->belongsTo('product','product_id','id');
+        return $this->belongsTo('product','favo_id','id');
+    }
+
+    public function theme(){
+        return $this->belongsTo('theme','favo_id','id');
     }
 
 
 
     // 判断收藏产品是否存在
-    public static function checkIsExist($uid, $product_id){
+    public static function checkIsExist($uid, $favo_id,$type=1){
         $data = [
             'user_id' => $uid,
-            'product_id' => $product_id
+            'favo_id' => $favo_id,
+            'type' => $type
         ];
         $isExist = self::where($data)->find();
 
         if($isExist){
-            if($isExist['status'] == 0 ){
-                $result = self::updateFavo($uid,$product_id,1);
+            if($isExist['is_delete'] == 1){
+                $result = self::updateFavo($uid,$favo_id, $type,0);
                 return $result;
             }
             return true;
         };
-
         return false;
     }
 
-    public static function updateFavo($uid, $product_id, $status){
+    public static function updateFavo($uid, $favo_id, $type, $is_delete){
         $data = [
             'user_id' => $uid,
-            'product_id' => $product_id
+            'type' => $type,
+            'favo_id' => $favo_id
         ];
         $result = self::where($data)
-            ->update(['status' => $status]);
+            ->update(['is_delete' => $is_delete]);
         return $result;
     }
 
@@ -53,11 +61,11 @@ class UserFavorite extends BaseModel
     public static function listFavo($uid, $page=1,$size=10){
         $data = [
             'user_id' => $uid,
-            'status' => 1
+            'is_delete' => 0
         ];
 
         $result = self::where($data)->with(['product' => function($query){
-            $query->where(['on_sale'=>1])->field('name,main_img_url,id,price,description');
+            $query->where(['on_sale'=>1])->field('name,main_img_url,id,price,description,theme_id');
         }])->paginate($size,false,['page'=>$page]);
         return $result;
     }

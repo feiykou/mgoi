@@ -74,7 +74,7 @@ class Theme extends BaseModel
             'on_sale' => 1
         ];
         $products = self::where($data)
-            ->with(['product','productDetail'])
+            ->with(['product','productDetail'=>['productImage']])
             ->find();
         return $products;
     }
