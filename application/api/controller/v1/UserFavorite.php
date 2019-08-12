@@ -82,12 +82,8 @@ class UserFavorite extends BaseController
 
     public function checkFavo(){
         $uid = $this->_public();
-        $data = input('get.');
-        $favo_id = $data['favo_id'];
-        $type = 1;
-        if(isset($data['type'])){
-            $type = $data['type'];
-        }
+        $favo_id = input('favo_id',0, 'intval');
+        $type = input('type',1, 'intval');
         $result = UserFavoriteModel::where([
             'user_id' => $uid,
             'favo_id' => $favo_id,
