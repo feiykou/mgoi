@@ -11,6 +11,7 @@ namespace app\api\model;
 
 class User extends BaseModel
 {
+
 //    protected $autoWriteTimestamp = true;
     /*
      * 用户和地址是一对多的关系

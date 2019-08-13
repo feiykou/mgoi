@@ -28,7 +28,7 @@ class Order extends BaseController
 {
 
     protected $beforeActionList = [
-        'checkExclusiveScope' => ['only' => 'placeOrder'],
+        'checkExclusiveScope' => ['only' => 'placeOrder,giftPlaceOrder'],
         'checkPrimaryScope' => ['only' => 'getDetail,getSummaryByUser,remove,cancel'],
         'checkSuperScope' => ['only' => 'getSummary']
     ];
@@ -37,9 +37,9 @@ class Order extends BaseController
     /**
      * 查看订单是否存在
      */
-    public function findOrder($user_id,$order_id){
+    public function findOrder($order_id){
         (new giftOrder())->goCheck();
-        $data = OrderModel::getGiftOrder($user_id,$order_id);
+        $data = OrderModel::getGiftOrder($order_id);
         if($data){
             return json(new SuccessMessage(),201);
         }
@@ -121,9 +121,10 @@ class Order extends BaseController
      * @return  $this
      * @throws  OrderException
      */
-    public function getDetail($id){
+    public function getDetail(){
         (new IDMustBePositiveInt())->goCheck();
-        $orderMDetail = OrderModel::get($id);
+        $id = input('id',0,'intval');
+        $orderMDetail = OrderModel::getOrderDetail($id);
         if(!$orderMDetail){
             throw new OrderException();
         }

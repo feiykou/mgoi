@@ -10,6 +10,7 @@ namespace app\admin\controller;
 
 use app\admin\validate\ThemeValidate;
 use catetree\Catetree;
+use think\facade\Config;
 
 class Theme extends Base
 {
@@ -36,12 +37,7 @@ class Theme extends Base
 
     public function add(){
         // 商品推荐位  3:代表主题
-        $rescBitArr = config('RescBit');
-        if(isset($rescBitArr[3])){
-            $RecposRes = db('recpos')->where('type','=',3)->select();
-        }else{
-            $RecposRes = [];
-        }
+        $RecposRes = db('recpos')->where('type','=',3)->select();
         // 全部产品
         $productDatas = $this->model->getAllProduct();
         foreach($productDatas as &$products){
@@ -75,13 +71,8 @@ class Theme extends Base
             $selRescIds[] = $v['id'];
         }
 
-        // 商品推荐位  2:代表主题
-        $rescBitArr = config('RescBit');
-        if(isset($rescBitArr[3])){
-            $RecposRes = db('recpos')->where('type','=',3)->select();
-        }else{
-            $RecposRes = [];
-        }
+        // 商品推荐位  3:代表主题
+        $RecposRes = db('recpos')->where('type','=',3)->select();
         // 全部产品
         $productDatas = $this->model->getAllProduct();
         foreach($productDatas as &$products){

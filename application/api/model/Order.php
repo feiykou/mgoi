@@ -12,6 +12,11 @@ class Order extends BaseModel
 
     protected $hidden = ['user_id','delete_time'];
 
+    public function giftShare(){
+        return $this->belongsTo('gift_share','id','order_id');
+    }
+
+
     public function getSnapItemsAttr($value){
         if(empty($value)){
             return null;
@@ -24,6 +29,15 @@ class Order extends BaseModel
             return null;
         }
         return json_decode(($value));
+    }
+
+    public static function getOrderDetail($id){
+        $data = self::where('id',$id)
+            ->with(['giftShare'=>['user' => function($query){
+                $query->field('id,avatar_img,nickName');
+            }]])
+            ->find();
+        return $data;
     }
 
     // 获取礼物订单
