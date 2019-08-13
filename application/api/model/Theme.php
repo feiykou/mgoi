@@ -54,8 +54,8 @@ class Theme extends BaseModel
             $recoIndexIds[] = $v['value_id'];
         }
         $data = [
-            'on_sale' => 1,
-            'id'      => $recoIndexIds
+            ['on_sale','=',1],
+            ['id','in',$recoIndexIds]
         ];
         $result = self::limit($count)
             ->where($data)
