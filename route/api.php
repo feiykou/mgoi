@@ -80,6 +80,11 @@ Route::get('api/:version/address/:id','api/:version.Address/editAddress',[],['id
 Route::get('api/:version/address/all','api/:version.Address/getUserAddress');
 Route::get('api/:version/getDefaultAddress','api/:version.Address/getDefaultAddress');
 
+// 礼物
+Route::get('api/:version/order/giftOrder','api/:version.Order/findOrder');
+Route::get('api/:version/order/shareGift','api/:version.Order/getGiftShare');
+Route::post('api/:version/order/takenGift','api/:version.Order/userTakenGift');
+
 
 // Order
 Route::post('api/:version/order','api/:version.Order/placeOrder');
@@ -91,7 +96,7 @@ Route::get('api/:version/order/by_user','api/:version.Order/getSummaryByUser');
 Route::get('api/:version/order/paginate','api/:version.Order/getSummary');
 Route::put('api/:version/order/cancel','api/:version.Order/cancel');
 Route::put('api/:version/order/remove','api/:version.Order/remove');
-Route::get('api/:version/order/giftOrder','api/:version.Order/findOrder');
+
 
 
 // Pay

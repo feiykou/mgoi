@@ -10,6 +10,7 @@ namespace app\api\controller\v1;
 
 
 use app\api\controller\BaseController;
+use app\api\model\GiftShare;
 use app\api\service\Token as TokenService;
 use app\api\service\Order as OrderService;
 use app\api\validate\giftOrder;
@@ -20,8 +21,10 @@ use app\api\validate\PagingParameter;
 use app\api\validate\Message as MessageValidate;
 use app\lib\enum\OrderStatusEnum;
 use app\lib\exception\FailMessage;
+use app\lib\exception\GiftOrderException;
 use app\lib\exception\OrderException;
 use app\lib\exception\SuccessMessage;
+use app\lib\exception\UserException;
 
 
 class Order extends BaseController
@@ -33,17 +36,52 @@ class Order extends BaseController
         'checkSuperScope' => ['only' => 'getSummary']
     ];
 
-
     /**
      * 查看订单是否存在
      */
     public function findOrder($order_id){
-        (new giftOrder())->goCheck();
-        $data = OrderModel::getGiftOrder($order_id);
+        (new giftOrder())->goCheck('gift');
+        $uid = TokenService::getCurrentUid();
+        $data = OrderModel::getGiftOrder($uid, $order_id);
         if($data){
             return json(new SuccessMessage(),201);
         }
         return json(new FailMessage(),201);
+    }
+
+    /**
+     * 朋友领取
+     */
+    public function userTakenGift(){
+        (new giftOrder())->goCheck('gift_taken');
+        $order_id = input('order_id',0,'intval');
+        $address_id = input('address_id',0,'intval');
+        $uid = TokenService::getCurrentUid();
+        // 判断是否被领取
+        $giftTaken = GiftShare::takenInfo($order_id);
+        if(array_key_exists('msg',$giftTaken)){
+            throw new GiftOrderException([
+                'msg' => $giftTaken['msg']
+            ]);
+        }
+
+        if(!$giftTaken['is_exist_address']){
+            if(!$address_id){
+                throw new UserException([
+                    'msg' => '请填写收货地址',
+                    'errorCode' => 60001
+                ]);
+            }
+        }else{
+            $address_id = 0;
+        }
+
+        // 领取礼品
+        $result = GiftShare::takenGift($uid, $giftTaken['user_id'], $order_id,$address_id);
+        if(!$result){
+            throw new GiftOrderException();
+        }
+        return json(new SuccessMessage(),201);
     }
 
 
@@ -75,6 +113,21 @@ class Order extends BaseController
         $order = new OrderService();
         $status = $order->place($uid,$data);
         return json($status);
+    }
+
+    /**
+     * 分享礼物详情订单
+     * @url /order/shareGift
+     * @http
+     * @return array|\PDOStatement|string|\think\Model|null
+     * @throws \app\lib\exception\ParameterException
+     */
+    public function getGiftShare(){
+        (new IDMustBePositiveInt())->goCheck();
+        $order_id = input('id',0,'intval');
+        $uid = TokenService::getCurrentUid();
+        $data = GiftShare::getGiftShare($uid, $order_id);
+        return $data;
     }
 
     private function resoluGiftData(){

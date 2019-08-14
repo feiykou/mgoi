@@ -12,12 +12,17 @@ namespace app\api\validate;
 class giftOrder extends BaseValidate
 {
     protected $rule = [
-        'user_id' => 'isPositiveInteger',
-        'order_id' => 'isPositiveInteger'
+        'order_id' => 'require|isPositiveInteger',
+        'address_id' => 'isPositiveInteger'
     ];
 
     protected $message = [
-        'user_id' => '分页参数必须是正整数',
-        'order_id' => '分页参数必须是正整数'
+        'order_id.require' => '订单id必须填写',
+        'address_id.require' => '地址id必须填写',
+    ];
+
+    protected $scene = [
+        'gift' => 'order_id',
+        'gift_taken' => ['order_id','address_id']
     ];
 }

@@ -89,5 +89,13 @@ class Order extends BaseModel
         return $result;
     }
 
+    public static function changeOrderAddress($uid,$id,$addressData=''){
+        $data = [
+            'id' => $id,
+            'user_id' => $uid,
+        ];
+        $result = self::where($data)->update(['snap_address' => $addressData]);
+        return $result;
+    }
 
 }

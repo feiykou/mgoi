@@ -175,11 +175,15 @@ class Order
     private function snapOrder($status){
         $couponPrice = $this->getCouponPrice();
         // status可以单独定义一个类
+        $addressData = json_encode($this->getUserAddress());
+        if(empty($this->getUserAddress())){
+            $addressData = '';
+        }
         $snap = [
             'orderPrice' => 0,
             'totalCount' => 0,
             'pStatus' => [],
-            'snapAddress' => json_encode($this->getUserAddress()),
+            'snapAddress' => $addressData,
             'coupon_price' => $couponPrice,
             'snapName' => $this->products[0]['name'],
             'snapImg' => $this->products[0]['main_img_url'][0],

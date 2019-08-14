@@ -10,6 +10,8 @@ namespace app\api\model;
 
 
 
+use app\lib\exception\UserException;
+
 class UserAddress extends BaseModel
 {
     protected $hidden = ['delete_time','create_time','update_time','user_id'];
@@ -31,6 +33,19 @@ class UserAddress extends BaseModel
             ->order($order)
             ->paginate($size, false, ['page' => $page]);
         return $pagingData;
+    }
+
+    // 获取用户地址
+    public static function getAddress($uid, $addressId){
+        $data = [
+            'id' => $addressId,
+            'user_id' => $uid,
+            'status' => 1
+        ];
+        $userAddress = UserAddress::where($data)
+            ->find();
+
+        return $userAddress;
     }
 
 }
