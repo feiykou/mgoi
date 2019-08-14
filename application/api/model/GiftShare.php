@@ -28,21 +28,19 @@ class GiftShare extends Model
         return $this->belongsTo('order','order_id','id');
     }
 
-    public static function getGiftShare($id,$order_id){
+    public static function getGiftShare($uid,$order_id){
         $data = [
             'order_id' => $order_id,
+            'user_id|gift_user_id'=>$uid
         ];
         $result = self::where($data)
-            ->whereOr(['user_id'=>$id])
-            ->whereOr(['gift_user_id'=>$id])
             ->with(['user'=>function($query){
                 $query->field('id,avatar_img,nickName');
             },'order'=>function($query){
                 $query->field('id,snap_img,snap_address,snap_name,snap_prop_val,status,gift_type,total_count,total_price');
             },'sendUser'=>function($query){
                 $query->field('id,avatar_img,nickName');
-            }])
-            ->find();
+            }])->find();
         return $result;
     }
 
@@ -72,7 +70,7 @@ class GiftShare extends Model
                     'msg' => '礼物不能领取'
                 ];
             }
-            if($orderData['gift_type'] == 1){
+            if($orderData['gift_type'] == 0){
                 return [
                     'msg' => '该礼物不能被领取'
                 ];
