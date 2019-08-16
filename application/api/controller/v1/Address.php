@@ -35,7 +35,7 @@ class Address extends BaseController
                 'is_default' => 'desc',
                 'update_time' => 'desc'
             ])->find();
-        if(empty($userAddress)) $userAddress=[];
+        if(empty($userAddress)) $userAddress=json([]);
         return $userAddress;
     }
 
