@@ -113,7 +113,6 @@ class Category extends BaseModel
         if(count($ids) > 0){
             $data = self::_getSelCate($ids)->toArray();
             $data = $cateTree->generateTree($data);
-
         }
         return $data;
     }
