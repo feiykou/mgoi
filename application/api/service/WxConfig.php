@@ -28,10 +28,10 @@ class WxConfig extends \WxPayConfigInterface
      *
      */
     public function GetAppId(){
-        return 'wxec99ce1d7b61c46b';
+        return 'wxa99d6dba7c875fbc';
     }
     public function GetMerchantId(){
-        return '1515631501';
+        return '1544346601';
     }
 
 
@@ -83,10 +83,10 @@ class WxConfig extends \WxPayConfigInterface
      * @var string
      */
     public function GetKey(){
-        return 'g6l0rqwfxnoonpupyj5g2660wyz4yo0d';
+        return '047a0fe5ff98d7944ebac81cb937dab7';
     }
     public function GetAppSecret(){
-        return '9d12f5aaa556e6ae9eedbf1a6f4157d1';
+        return '2eb66fcb8ab983756526da00210ca792';
     }
 
 

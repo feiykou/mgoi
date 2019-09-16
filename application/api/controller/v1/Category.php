@@ -115,7 +115,6 @@ class Category extends BaseController
         }else{
             $data = CategoryModel::getSonData($cateid);
         }
-
         return json($data);
     }
 

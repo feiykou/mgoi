@@ -9,9 +9,6 @@
 namespace app\api\model;
 
 
-
-use app\lib\exception\UserException;
-
 class UserAddress extends BaseModel
 {
     protected $hidden = ['delete_time','create_time','update_time','user_id'];

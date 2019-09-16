@@ -22,4 +22,15 @@ class BannerItem extends BaseModel
     {
         return $this->prefixVideoUrl($value, $data);
     }
+
+    public static function getIndexBanner(){
+        $data = [
+            'banner_id' => 1
+        ];
+        $order = [
+            'listorder' => 'desc'
+        ];
+        $result = self::where($data)->order($order)->select();
+        return $result;
+    }
 }
